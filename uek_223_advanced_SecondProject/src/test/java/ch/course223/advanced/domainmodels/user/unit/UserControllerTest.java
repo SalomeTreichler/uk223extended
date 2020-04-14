@@ -161,9 +161,8 @@ public class UserControllerTest {
     @Test
     @WithMockUser
     public void create_deliverUserDTOToCreate_returnErrorEmailInvalid() throws Exception {
-        UserDTO userDTOToBeTestedAgainstInvalidEmail = userDTOToBeTestedAgainst;
-        userDTOToBeTestedAgainstInvalidEmail.setEmail("invalid email");
-        String userDTOAsJsonString = new ObjectMapper().writeValueAsString(userDTOToBeTestedAgainstInvalidEmail);
+        userDTOToBeTestedAgainst.setEmail("invalid email");
+        String userDTOAsJsonString = new ObjectMapper().writeValueAsString(userDTOToBeTestedAgainst);
 
         given(userService.save(any(User.class))).will(invocation -> {
             if ("non-existent".equals(invocation.getArgument(0))) throw new BadRequestException();
@@ -182,6 +181,7 @@ public class UserControllerTest {
 
         ArgumentCaptor<User> userArgumentCaptor = ArgumentCaptor.forClass(User.class);
         verify(userService, times(0)).save(userArgumentCaptor.capture());
+        userToBeTestedAgainst.setEmail("john.doe@noseryoung.ch");
        }
 
 
